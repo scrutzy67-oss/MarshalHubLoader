@@ -1,0 +1,31 @@
+--[[
+  MARSHAL HUB — Universal Loader
+  Paste this ONE script into any executor.
+  Automatically loads the correct hub for the game you're in.
+  
+  Supported games:
+    • GOD TYCOON          (PlaceId: 107778070777160)
+    • Elemental Powers Tycoon  (PlaceId: 10253248401)
+--]]
+
+local SCRIPTS = {
+    -- GOD TYCOON
+    ["107778070777160"] = "https://raw.githubusercontent.com/scrutzy67-oss/marshalhubgodtycoonscript/refs/heads/main/marshalgodtycoon",
+    -- Elemental Powers Tycoon
+    ["10253248401"]     = "https://raw.githubusercontent.com/scrutzy67-oss/marshalhubgodtycoonscript/refs/heads/main/elemental",
+}
+
+local placeId = tostring(math.floor(game.PlaceId))
+local url = SCRIPTS[placeId]
+
+if url then
+    local ok, err = pcall(function()
+        loadstring(game:HttpGet(url, true))()
+    end)
+    if not ok then
+        warn("[MarshalHub] Failed to load script: " .. tostring(err))
+    end
+else
+    warn("[MarshalHub] No script found for PlaceId: " .. placeId)
+    warn("[MarshalHub] Supported games: GOD TYCOON, Elemental Powers Tycoon")
+end
